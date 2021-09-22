@@ -1,41 +1,42 @@
 package com.example.redcollar1.controllers;
 
-import com.example.redcollar1.dao.PersonDAO;
-import com.example.redcollar1.models.Person;
+import com.example.redcollar1.exception.ValidateEmailException;
+import com.example.redcollar1.models.entities.Person;
+import com.example.redcollar1.repository.PersonRepository;
+import com.example.redcollar1.services.DataServiceJPA;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
-@Controller
+
+@RestController
 @RequestMapping("/people")
 public class PersonController {
 
-    private final PersonDAO personDAO;
+    private final DataServiceJPA dataServiceJPA;
 
     @Autowired
-    public PersonController(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonController(DataServiceJPA dataServiceJPA) {
+        this.dataServiceJPA = dataServiceJPA;
     }
 
     @GetMapping()
-    public String index() {
-        personDAO.index();
-        return "Hello world";
+    public List<Person> index() {
+        return dataServiceJPA.findAll();
     }
 
-    @GetMapping("/new")
-    public String newPerson(@ModelAttribute("person") Person person) {
-        return "people/new";
-    }
+    @PostMapping("/new")
+    public String create(@RequestParam String name, @RequestParam Long age, @RequestParam String email,
+                         @RequestParam String login, @RequestParam String pass) {
 
-    @PostMapping()
-    public String create(@ModelAttribute("person") Person person,
-                         BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "people/new";
-
-        return personDAO.save(person).toString();
+        try {
+            dataServiceJPA.save(name, age, email, login, pass);
+        } catch (ValidateEmailException e) {
+            e.printStackTrace();
+            return "Not write. Bad email";
+        }
+        return "write";
     }
 }
