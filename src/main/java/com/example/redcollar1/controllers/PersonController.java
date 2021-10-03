@@ -1,13 +1,14 @@
 package com.example.redcollar1.controllers;
 
-import com.example.redcollar1.exception.ValidateEmailException;
-import com.example.redcollar1.models.entities.Person;
-import com.example.redcollar1.repository.PersonRepository;
-import com.example.redcollar1.services.DataServiceJPA;
+import com.example.redcollar1.exception.IncorrectNameContentException;
+import com.example.redcollar1.models.dto.PersonDto;
+import com.example.redcollar1.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -15,28 +16,31 @@ import java.util.List;
 @RequestMapping("/people")
 public class PersonController {
 
-    private final DataServiceJPA dataServiceJPA;
-
     @Autowired
-    public PersonController(DataServiceJPA dataServiceJPA) {
-        this.dataServiceJPA = dataServiceJPA;
-    }
+    private PersonService servicePerson;
 
     @GetMapping()
-    public List<Person> index() {
-        return dataServiceJPA.findAll();
+    public List<PersonDto> index() {
+        return servicePerson.findAll();
     }
 
-    @PostMapping("/new")
-    public String create(@RequestParam String name, @RequestParam Long age, @RequestParam String email,
-                         @RequestParam String login, @RequestParam String pass) {
+    @GetMapping("/content")
+    public List<PersonDto> findPersonWithMoreContentThanANumber(@RequestParam int number) {
+        return servicePerson.findPersonWithMoreContentThanANumber(number);
+    }
 
-        try {
-            dataServiceJPA.save(name, age, email, login, pass);
-        } catch (ValidateEmailException e) {
-            e.printStackTrace();
-            return "Not write. Bad email";
-        }
-        return "write";
+    @PutMapping("/new")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PersonDto create(@RequestParam String name, @RequestParam Long age, @RequestParam String email,
+                            @RequestParam String login, @RequestParam String pass,
+                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth) {
+
+        return servicePerson.save(name, age, email, login, pass, dateOfBirth);
+    }
+
+    @DeleteMapping("/delete")
+    public String delete(@RequestParam Long id) throws IncorrectNameContentException {
+        servicePerson.delete(id);
+        return "Deleted";
     }
 }
