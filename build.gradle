@@ -30,6 +30,7 @@ dependencies {
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.11'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.10'
 
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
 

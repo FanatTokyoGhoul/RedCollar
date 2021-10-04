@@ -24,21 +24,21 @@ public class VideoContentController {
         return serviceContent.findAll();
     }
 
-    @PutMapping("/new")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public VideoContentDto create(@RequestParam String name, @RequestParam String genres,
                                   @RequestParam String image, @RequestParam String description, @RequestParam Long idPerson) throws IncorrectNameContentException {
         return serviceContent.save(name, genres, image, description, idPerson);
     }
 
-    @PutMapping("/update")
-    public VideoContentDto update(@RequestParam Long id, @RequestParam String name, @RequestParam String genres,
+    @PutMapping("/{id}")
+    public VideoContentDto update(@PathVariable Long id, @RequestParam String name, @RequestParam String genres,
                                   @RequestParam String image, @RequestParam String description) throws IncorrectNameContentException {
         return serviceContent.update(id, name, genres, image, description);
     }
 
-    @DeleteMapping("/delete")
-    public String delete(@RequestParam Long id) throws IncorrectNameContentException {
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) throws IncorrectNameContentException {
         serviceContent.delete(id);
         return "Deleted";
     }

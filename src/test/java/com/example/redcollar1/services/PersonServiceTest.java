@@ -24,7 +24,7 @@ public class PersonServiceTest {
 
 
     private Person modelPerson = new Person(1L, "as", 18L, LocalDate.of(1111, 9,3), "testTest@mail.ru", "testTest", "fewf", new ArrayList<>());
-    private PersonDto modelPersonDto = new PersonDto(1L, "as", 18L, LocalDate.of(1111, 9,3), "testTest@mail.ru", "testTest", "fewf", new ArrayList<>());
+    private PersonDto modelPersonDto = new PersonDto(1L, "as", 18L, LocalDate.of(1111, 9,3), "testTest@mail.ru", "testTest", "fewf");
     private Person modelPersonNullId = new Person(null, "as", 18L, LocalDate.of(1111, 9,3), "testTest@mail.ru", "testTest", "fewf", null);
     private VideoContent modelVideoContentFirst = new VideoContent(1L, "rrrr", "ttt", "image", "it", modelPerson);
     private VideoContent modelVideoContentSecond = new VideoContent(2L, "rrrr", "ttt", "image", "it", modelPerson);
@@ -32,13 +32,12 @@ public class PersonServiceTest {
     private List<PersonDto> personListDto = new ArrayList<>();
 
     private PersonRepository personRepository = mock(PersonRepository.class);
-    private PersonService personService = new PersonService(personRepository, new PersonDtoFactory());
+    private CheckDataService checkDataService = mock(CheckDataService.class);
+    private PersonService personService = new PersonService(personRepository, new PersonDtoFactory(), checkDataService);
 
     public PersonServiceTest() {
         modelPerson.getContents().add(modelVideoContentFirst);
         modelPerson.getContents().add(modelVideoContentSecond);
-        modelPersonDto.getIdContents().add(1L);
-        modelPersonDto.getIdContents().add(2L);
         personList.add(modelPerson);
         personListDto.add(modelPersonDto);
     }

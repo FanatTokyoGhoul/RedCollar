@@ -18,11 +18,13 @@ public class PersonService {
 
     private PersonRepository personRepository;
     private PersonDtoFactory personDtoFactory;
+    private CheckDataService checkDataService;
 
     @Autowired
-    public PersonService(PersonRepository personRepository, PersonDtoFactory personDtoFactory) {
+    public PersonService(PersonRepository personRepository, PersonDtoFactory personDtoFactory, CheckDataService checkDataService) {
         this.personRepository = personRepository;
         this.personDtoFactory = personDtoFactory;
+        this.checkDataService = checkDataService;
     }
 
     public List<PersonDto> findAll() {
@@ -30,7 +32,7 @@ public class PersonService {
                 .map(person -> personDtoFactory.makeEmployeeDto(person)).collect(Collectors.toList());
     }
 
-    public List<PersonDto> findPersonWithMoreContentThanANumber(int number){
+    public List<PersonDto> findPersonWithMoreContentThanANumber(int number) {
         return personRepository.findAll().stream().filter(person -> person.getContents().size() > number)
                 .map(person -> personDtoFactory.makeEmployeeDto(person)).collect(Collectors.toList());
     }
@@ -54,7 +56,43 @@ public class PersonService {
         return personDtoFactory.makeEmployeeDto(employee);
     }
 
-    public void delete(Long id){
+    public PersonDto save(PersonDto personDto) throws IncorrectEmailException {
+
+        Validation.validateEmail(personDto.getEmail());
+
+        Person employee = personRepository.save(
+                Person.builder()
+                        .name(personDto.getName())
+                        .age(personDto.getAge())
+                        .dateOfBirth(personDto.getDateOfBirth())
+                        .email(personDto.getEmail())
+                        .login(personDto.getLogin())
+                        .pass(personDto.getPass())
+                        .build()
+        );
+
+        return personDtoFactory.makeEmployeeDto(personRepository.save(employee));
+    }
+
+    public PersonDto update(Long id, String name, Long age, String email,
+                            String login, String pass, LocalDate dateOfBirth) throws IncorrectEmailException {
+
+        //checkDataService.verificationOfExistencePersonById(id, personRepository);
+
+        Person person = personRepository.getById(id);
+        person.setName(name);
+        person.setAge(age);
+        person.setEmail(email);
+        person.setLogin(login);
+        person.setPass(pass);
+        person.setDateOfBirth(dateOfBirth);
+
+        personRepository.save(person);
+
+        return personDtoFactory.makeEmployeeDto(person);
+    }
+
+    public void delete(Long id) {
         personRepository.deleteById(id);
     }
 }

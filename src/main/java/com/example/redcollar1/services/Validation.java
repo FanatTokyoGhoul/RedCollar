@@ -14,12 +14,12 @@ public class Validation {
     public static void validateEmail(String email) {
         Pattern pattern = Pattern.compile("\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*\\.\\w{2,4}");
         Matcher matcher = pattern.matcher(email);
-        if(!matcher.matches()){
+        if (!matcher.matches()) {
             throw new IncorrectEmailException(email);
         }
     }
 
-    public static void validateNameContent(String name){
+    public static void validateNameContent(String name) {
         if (name.length() < MIN_LENGTH_EMAIL || name.length() > MAX_LENGTH_EMAIL) {
             throw new IncorrectNameContentException();
         }

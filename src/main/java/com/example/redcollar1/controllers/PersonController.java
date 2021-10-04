@@ -24,22 +24,26 @@ public class PersonController {
         return servicePerson.findAll();
     }
 
-    @GetMapping("/content")
+    @GetMapping("/getPeopleWithContent")
     public List<PersonDto> findPersonWithMoreContentThanANumber(@RequestParam int number) {
         return servicePerson.findPersonWithMoreContentThanANumber(number);
     }
 
-    @PutMapping("/new")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PersonDto create(@RequestParam String name, @RequestParam Long age, @RequestParam String email,
-                            @RequestParam String login, @RequestParam String pass,
-                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth) {
-
-        return servicePerson.save(name, age, email, login, pass, dateOfBirth);
+    public PersonDto create(@RequestBody PersonDto person) {
+        return servicePerson.save(person);
     }
 
-    @DeleteMapping("/delete")
-    public String delete(@RequestParam Long id) throws IncorrectNameContentException {
+    @PutMapping("/{id}")
+    public PersonDto update(@PathVariable Long id, @RequestParam String name, @RequestParam Long age,
+                            @RequestParam String email, @RequestParam String login,
+                            @RequestParam String pass, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) throws IncorrectNameContentException {
+        return servicePerson.update(id, name, age, email, login, pass, date);
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) {
         servicePerson.delete(id);
         return "Deleted";
     }

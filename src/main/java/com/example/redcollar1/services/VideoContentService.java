@@ -32,7 +32,6 @@ public class VideoContentService {
     }
 
 
-    @Transactional
     public VideoContentDto update(Long id, String name, String genres,
                                   String image, String description) {
 

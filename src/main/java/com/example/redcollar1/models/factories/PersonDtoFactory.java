@@ -10,12 +10,6 @@ import java.util.List;
 public class PersonDtoFactory {
     public PersonDto makeEmployeeDto(Person entity) {
 
-        List<Long> idList = new ArrayList<>();
-
-        for (VideoContent videoContent: entity.getContents()) {
-            idList.add(videoContent.getId());
-        }
-
         return PersonDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
@@ -24,7 +18,6 @@ public class PersonDtoFactory {
                 .email(entity.getEmail())
                 .login(entity.getLogin())
                 .pass(entity.getPass())
-                .idContents(idList)
                 .build();
     }
 }
