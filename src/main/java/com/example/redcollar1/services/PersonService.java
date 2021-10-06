@@ -1,19 +1,18 @@
 package com.example.redcollar1.services;
 
 import com.example.redcollar1.exception.IncorrectEmailException;
+import com.example.redcollar1.exception.NotFoundEntityException;
 import com.example.redcollar1.models.dto.PersonDto;
 import com.example.redcollar1.models.entities.Person;
 import com.example.redcollar1.models.factories.PersonDtoFactory;
 import com.example.redcollar1.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -38,7 +37,15 @@ public class PersonService {
     }
 
     public List<PersonDto> findPersonWithMoreContentThanANumber(int number) {
-        return new ArrayList<>();
+        List<PersonDto> personDtos = new ArrayList<>();
+        for(Person person : personRepository.findAll()) {
+            if (person.getContents().size() > number) {
+                personDtos.add(personDtoFactory.makeEmployeeDto(person));
+
+            }
+        }
+
+        return personDtos;
     }
 
     public PersonDto save(PersonDto personDto) throws IncorrectEmailException {
@@ -62,8 +69,8 @@ public class PersonService {
     public PersonDto update(Long id, String name, Long age, String email,
                             String login, String pass, LocalDate dateOfBirth) throws IncorrectEmailException {
 
-        Person person = checkDataService.verificationOfExistencePersonById(id, personRepository);
-
+        Optional<Person> optionalPerson = personRepository.findById(id);
+        Person person = optionalPerson.orElseThrow(() -> new NotFoundEntityException(id));
 
         person.setName(name);
         person.setAge(age);
