@@ -10,8 +10,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PersonService {
@@ -28,32 +30,15 @@ public class PersonService {
     }
 
     public List<PersonDto> findAll() {
-        return personRepository.findAll().stream()
-                .map(person -> personDtoFactory.makeEmployeeDto(person)).collect(Collectors.toList());
+        List<PersonDto> personDtos = new ArrayList<>();
+        for(Person person : personRepository.findAll()){
+            personDtos.add(personDtoFactory.makeEmployeeDto(person));
+        }
+        return personDtos;
     }
 
     public List<PersonDto> findPersonWithMoreContentThanANumber(int number) {
-        return personRepository.findAll().stream().filter(person -> person.getContents().size() > number)
-                .map(person -> personDtoFactory.makeEmployeeDto(person)).collect(Collectors.toList());
-    }
-
-    public PersonDto save(String name, Long age, String email,
-                          String login, String pass, LocalDate dateOfBirth) throws IncorrectEmailException {
-
-        Validation.validateEmail(email);
-
-        Person employee = personRepository.save(
-                Person.builder()
-                        .name(name)
-                        .age(age)
-                        .dateOfBirth(dateOfBirth)
-                        .email(email)
-                        .login(login)
-                        .pass(pass)
-                        .build()
-        );
-        personRepository.save(employee);
-        return personDtoFactory.makeEmployeeDto(employee);
+        return new ArrayList<>();
     }
 
     public PersonDto save(PersonDto personDto) throws IncorrectEmailException {
@@ -77,9 +62,9 @@ public class PersonService {
     public PersonDto update(Long id, String name, Long age, String email,
                             String login, String pass, LocalDate dateOfBirth) throws IncorrectEmailException {
 
-        //checkDataService.verificationOfExistencePersonById(id, personRepository);
+        Person person = checkDataService.verificationOfExistencePersonById(id, personRepository);
 
-        Person person = personRepository.getById(id);
+
         person.setName(name);
         person.setAge(age);
         person.setEmail(email);

@@ -4,26 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.*;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "content")
+@Table("content")
 public class VideoContent {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String genres;
     private String image;
     private String description;
-
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_person")
-    private Person person;
+    private Long IdPerson;
 }

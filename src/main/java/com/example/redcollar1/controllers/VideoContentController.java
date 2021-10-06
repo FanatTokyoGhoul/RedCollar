@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PostUpdate;
+
 import java.util.List;
 
 
@@ -38,8 +38,7 @@ public class VideoContentController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) throws IncorrectNameContentException {
+    public void delete(@PathVariable Long id) throws IncorrectNameContentException {
         serviceContent.delete(id);
-        return "Deleted";
     }
 }

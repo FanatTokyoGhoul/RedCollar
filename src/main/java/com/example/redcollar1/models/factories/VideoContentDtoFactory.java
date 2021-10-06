@@ -12,7 +12,7 @@ public class VideoContentDtoFactory {
                 .genres(entity.getGenres())
                 .description(entity.getDescription())
                 .image(entity.getImage())
-                .idUser(entity.getPerson().getId())
+                .idUser(entity.getIdPerson())
                 .build();
     }
 }

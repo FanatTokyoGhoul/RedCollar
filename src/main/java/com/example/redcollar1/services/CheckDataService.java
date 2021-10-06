@@ -1,25 +1,32 @@
 package com.example.redcollar1.services;
 
 import com.example.redcollar1.exception.NotFoundEntityException;
+import com.example.redcollar1.models.entities.Person;
+import com.example.redcollar1.models.entities.VideoContent;
 import com.example.redcollar1.repository.PersonRepository;
 import com.example.redcollar1.repository.VideoContentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-//TODO Спросить у Макса нормально ли так делать
-
 @Service
 public class CheckDataService {
-    public void verificationOfExistenceContentById(Long id, VideoContentRepository contentRepository) {
-        if (contentRepository.findById(id).equals(Optional.empty())) {
+    public VideoContent verificationOfExistenceContentById(Long id, VideoContentRepository contentRepository) {
+        Optional<VideoContent> optionalVideoContent = contentRepository.findById(id);
+        if (optionalVideoContent.equals(Optional.empty())) {
             throw new NotFoundEntityException(id);
         }
+
+        return optionalVideoContent.orElse(new VideoContent());
     }
 
-    public void verificationOfExistencePersonById(Long id, PersonRepository personRepository) {
-        if (personRepository.findById(id).equals(Optional.empty())) {
+    public Person verificationOfExistencePersonById(Long id, PersonRepository personRepository) {
+        Optional<Person> person = personRepository.findById(id);
+
+        if (person.equals(Optional.empty())) {
             throw new NotFoundEntityException(id);
         }
+
+        return person.orElse(new Person());
     }
 }

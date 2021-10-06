@@ -9,10 +9,11 @@ import com.example.redcollar1.repository.PersonRepository;
 import com.example.redcollar1.repository.VideoContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class VideoContentService {
@@ -35,8 +36,7 @@ public class VideoContentService {
     public VideoContentDto update(Long id, String name, String genres,
                                   String image, String description) {
 
-        checkDataService.verificationOfExistenceContentById(id, contentRepository);
-        VideoContent entity = contentRepository.getById(id);
+        VideoContent entity = checkDataService.verificationOfExistenceContentById(id, contentRepository);
         entity.setName(name);
         entity.setGenres(genres);
         entity.setDescription(description);
@@ -49,8 +49,9 @@ public class VideoContentService {
     }
 
     public List<VideoContentDto> findAll() {
-        return contentRepository.findAll().stream()
-                .map(s -> contentDtoFactory.makeEmployeeDto(s)).collect(Collectors.toList());
+
+        return Stream.of(contentRepository.findAll())
+                .map(contents -> contentDtoFactory.makeEmployeeDto((VideoContent) contents)).collect(Collectors.toList());
     }
 
     public VideoContentDto save(String name, String genres,
@@ -58,15 +59,14 @@ public class VideoContentService {
 
         Validation.validateNameContent(name);
 
-        checkDataService.verificationOfExistenceContentById(idPerson, contentRepository);
-        Person byId = personRepository.getById(idPerson);
+        Person person = checkDataService.verificationOfExistencePersonById(idPerson, personRepository);
         VideoContent employee = contentRepository.save(
                 VideoContent.builder()
                         .name(name)
                         .genres(genres)
                         .image(image)
                         .description(description)
-                        .person(byId)
+                        .IdPerson(person.getId())
                         .build()
         );
 

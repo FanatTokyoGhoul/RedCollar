@@ -24,7 +24,7 @@ public class PersonController {
         return servicePerson.findAll();
     }
 
-    @GetMapping("/getPeopleWithContent")
+    @GetMapping("/high/content")
     public List<PersonDto> findPersonWithMoreContentThanANumber(@RequestParam int number) {
         return servicePerson.findPersonWithMoreContentThanANumber(number);
     }
@@ -43,8 +43,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         servicePerson.delete(id);
-        return "Deleted";
     }
 }
