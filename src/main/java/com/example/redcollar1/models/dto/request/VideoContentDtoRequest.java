@@ -1,4 +1,5 @@
-package com.example.redcollar1.models.dto;
+package com.example.redcollar1.models.dto.request;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,13 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VideoContentDto {
-
-    private Long id;
+public class VideoContentDtoRequest {
     private String name;
     private String genres;
     private String image;
     private String description;
-    private Long idUser;
+    private Long idPerson;
 }
-

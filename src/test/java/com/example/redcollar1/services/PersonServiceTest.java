@@ -1,8 +1,7 @@
 package com.example.redcollar1.services;
 
 import com.example.redcollar1.exception.IncorrectEmailException;
-import com.example.redcollar1.exception.IncorrectNameContentException;
-import com.example.redcollar1.models.dto.PersonDto;
+import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.models.entities.Person;
 import com.example.redcollar1.models.entities.VideoContent;
 import com.example.redcollar1.models.factories.PersonDtoFactory;
@@ -24,12 +23,12 @@ public class PersonServiceTest {
 
 
     private Person modelPerson = new Person(1L, "as", 18L, LocalDate.of(1111, 9,3), "testTest@mail.ru", "testTest", "fewf", new ArrayList<>());
-    private PersonDto modelPersonDto = new PersonDto(1L, "as", 18L, LocalDate.of(1111, 9,3), "testTest@mail.ru", "testTest", "fewf");
+    private PersonDtoResponse modelPersonDto = new PersonDtoResponse(1L, "as", 18L, LocalDate.of(1111, 9,3), "testTest@mail.ru", "testTest", "fewf");
     private Person modelPersonNullId = new Person(null, "as", 18L, LocalDate.of(1111, 9,3), "testTest@mail.ru", "testTest", "fewf", null);
     private VideoContent modelVideoContentFirst = new VideoContent(1L, "rrrr", "ttt", "image", "it", modelPerson);
     private VideoContent modelVideoContentSecond = new VideoContent(2L, "rrrr", "ttt", "image", "it", modelPerson);
     private List<Person> personList = new ArrayList<>();
-    private List<PersonDto> personListDto = new ArrayList<>();
+    private List<PersonDtoResponse> personListDto = new ArrayList<>();
 
     private PersonRepository personRepository = mock(PersonRepository.class);
     private CheckDataService checkDataService = mock(CheckDataService.class);

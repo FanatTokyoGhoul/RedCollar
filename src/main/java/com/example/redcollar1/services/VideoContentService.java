@@ -1,7 +1,7 @@
 package com.example.redcollar1.services;
 
 import com.example.redcollar1.exception.IncorrectNameContentException;
-import com.example.redcollar1.models.dto.VideoContentDto;
+import com.example.redcollar1.models.dto.response.VideoContentDtoResponse;
 import com.example.redcollar1.models.entities.Person;
 import com.example.redcollar1.models.entities.VideoContent;
 import com.example.redcollar1.models.factories.VideoContentDtoFactory;
@@ -10,7 +10,6 @@ import com.example.redcollar1.repository.VideoContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,8 +32,8 @@ public class VideoContentService {
     }
 
 
-    public VideoContentDto update(Long id, String name, String genres,
-                                  String image, String description) {
+    public VideoContentDtoResponse update(Long id, String name, String genres,
+                                          String image, String description) {
 
         VideoContent entity = checkDataService.verificationOfExistenceContentById(id, contentRepository);
         entity.setName(name);
@@ -48,14 +47,14 @@ public class VideoContentService {
         contentRepository.deleteById(id);
     }
 
-    public List<VideoContentDto> findAll() {
+    public List<VideoContentDtoResponse> findAll() {
 
         return Stream.of(contentRepository.findAll())
                 .map(contents -> contentDtoFactory.makeEmployeeDto((VideoContent) contents)).collect(Collectors.toList());
     }
 
-    public VideoContentDto save(String name, String genres,
-                                String image, String description, Long idPerson) throws IncorrectNameContentException {
+    public VideoContentDtoResponse save(String name, String genres,
+                                        String image, String description, Long idPerson) throws IncorrectNameContentException {
 
         Validation.validateNameContent(name);
 

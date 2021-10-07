@@ -1,6 +1,6 @@
 package com.example.redcollar1.models.entities;
 
-import com.example.redcollar1.models.dto.PersonDto;
+import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +11,6 @@ import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -40,7 +39,7 @@ public class Person {
     @MappedCollection(idColumn = "id_person")
     private Set<VideoContent> contents;
 
-    public PersonDto toDto() {
-        return new PersonDto();
+    public PersonDtoResponse toDto() {
+        return new PersonDtoResponse();
     }
 }

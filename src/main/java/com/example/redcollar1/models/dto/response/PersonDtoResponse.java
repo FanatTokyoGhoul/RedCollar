@@ -1,4 +1,4 @@
-package com.example.redcollar1.models.dto;
+package com.example.redcollar1.models.dto.response;
 
 
 import lombok.AllArgsConstructor;
@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonDto {
+public class PersonDtoResponse {
 
     private Long id;
     private String name;

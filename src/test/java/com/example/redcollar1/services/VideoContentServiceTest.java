@@ -1,7 +1,7 @@
 package com.example.redcollar1.services;
 
 import com.example.redcollar1.exception.IncorrectNameContentException;
-import com.example.redcollar1.models.dto.VideoContentDto;
+import com.example.redcollar1.models.dto.response.VideoContentDtoResponse;
 import com.example.redcollar1.models.entities.Person;
 import com.example.redcollar1.models.entities.VideoContent;
 import com.example.redcollar1.models.factories.VideoContentDtoFactory;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 public class VideoContentServiceTest {
 
 
-    private VideoContentDto modelVideoContentDto= new VideoContentDto(1L, "rrrr", "ttt", "image", "it", 1L);
+    private VideoContentDtoResponse modelVideoContentDto= new VideoContentDtoResponse(1L, "rrrr", "ttt", "image", "it", 1L);
     private Person modelPerson = new Person(1l, "sss", 18L, LocalDate.of(2001, 3, 9), "zzz", "qqq", "ttt", new ArrayList<>());
     private VideoContent modelVideoContent = new VideoContent(1L, "rrrr", "ttt", "image", "it", modelPerson);
     private VideoContent modelVideoContentNullId = new VideoContent(null, "rrrr", "ttt", "image", "it", modelPerson);
