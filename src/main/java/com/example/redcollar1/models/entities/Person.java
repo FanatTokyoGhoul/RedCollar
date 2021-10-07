@@ -1,22 +1,23 @@
 package com.example.redcollar1.models.entities;
 
-import com.example.redcollar1.models.dto.PersonDto;
+import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.MappedCollection;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "person")
+@Table("person")
 public class Person {
 
     // PK FK 1t1 1tm mtm group by sort having distinct count (join left right outer inner)
@@ -25,7 +26,6 @@ public class Person {
 
     // flyway
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -35,10 +35,11 @@ public class Person {
     private String email;
     private String login;
     private String pass;
-    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
-    private List<VideoContent> contents;
 
-    public PersonDto toDto() {
-        return new PersonDto();
+    @MappedCollection(idColumn = "id_person")
+    private Set<VideoContent> contents;
+
+    public PersonDtoResponse toDto() {
+        return new PersonDtoResponse();
     }
 }

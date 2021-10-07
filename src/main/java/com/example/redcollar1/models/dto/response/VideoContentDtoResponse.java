@@ -1,25 +1,21 @@
-package com.example.redcollar1.models.entities;
+package com.example.redcollar1.models.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
-
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Table("content")
-public class VideoContent {
-    @Id
-    private Long id;
+@AllArgsConstructor
+public class VideoContentDtoResponse {
 
+    private Long id;
     private String name;
     private String genres;
     private String image;
     private String description;
     private Long idPerson;
 }
+

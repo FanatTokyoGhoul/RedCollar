@@ -1,91 +1,71 @@
 package com.example.redcollar1.services;
 
 import com.example.redcollar1.exception.IncorrectEmailException;
-import com.example.redcollar1.models.dto.PersonDto;
+import com.example.redcollar1.exception.NotFoundEntityException;
+import com.example.redcollar1.models.dto.request.PersonDtoRequest;
+import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.models.entities.Person;
 import com.example.redcollar1.models.factories.PersonDtoFactory;
 import com.example.redcollar1.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class PersonService {
-
-    private PersonRepository personRepository;
-    private PersonDtoFactory personDtoFactory;
-    private CheckDataService checkDataService;
+    private final PersonRepository personRepository;
+    private final PersonDtoFactory personDtoFactory;
 
     @Autowired
-    public PersonService(PersonRepository personRepository, PersonDtoFactory personDtoFactory, CheckDataService checkDataService) {
+    public PersonService(PersonRepository personRepository, PersonDtoFactory personDtoFactory) {
         this.personRepository = personRepository;
         this.personDtoFactory = personDtoFactory;
-        this.checkDataService = checkDataService;
     }
 
-    public List<PersonDto> findAll() {
-        return personRepository.findAll().stream()
-                .map(person -> personDtoFactory.makeEmployeeDto(person)).collect(Collectors.toList());
+    public List<PersonDtoResponse> findAll() {
+        List<PersonDtoResponse> personDtos = new ArrayList<>();
+        for (Person person : personRepository.findAll()) {
+            personDtos.add(personDtoFactory.makeEmployeeDto(person));
+        }
+        return personDtos;
     }
 
-    public List<PersonDto> findPersonWithMoreContentThanANumber(int number) {
-        return personRepository.findAll().stream().filter(person -> person.getContents().size() > number)
-                .map(person -> personDtoFactory.makeEmployeeDto(person)).collect(Collectors.toList());
+    public List<PersonDtoResponse> findPersonWithMoreContentThanANumber(int number) {
+        List<PersonDtoResponse> personDtos = new ArrayList<>();
+        for (Person person : personRepository.findAll()) {
+            if (person.getContents().size() > number) {
+                personDtos.add(personDtoFactory.makeEmployeeDto(person));
+
+            }
+        }
+
+        return personDtos;
     }
 
-    public PersonDto save(String name, Long age, String email,
-                          String login, String pass, LocalDate dateOfBirth) throws IncorrectEmailException {
-
-        Validation.validateEmail(email);
-
-        Person employee = personRepository.save(
-                Person.builder()
-                        .name(name)
-                        .age(age)
-                        .dateOfBirth(dateOfBirth)
-                        .email(email)
-                        .login(login)
-                        .pass(pass)
-                        .build()
-        );
-        personRepository.save(employee);
-        return personDtoFactory.makeEmployeeDto(employee);
-    }
-
-    public PersonDto save(PersonDto personDto) throws IncorrectEmailException {
+    public PersonDtoResponse save(PersonDtoRequest personDto) throws IncorrectEmailException {
 
         Validation.validateEmail(personDto.getEmail());
 
-        Person employee = personRepository.save(
-                Person.builder()
-                        .name(personDto.getName())
-                        .age(personDto.getAge())
-                        .dateOfBirth(personDto.getDateOfBirth())
-                        .email(personDto.getEmail())
-                        .login(personDto.getLogin())
-                        .pass(personDto.getPass())
-                        .build()
-        );
+        Person employee = personDtoFactory.makeEntity(personDto);
 
         return personDtoFactory.makeEmployeeDto(personRepository.save(employee));
     }
 
-    public PersonDto update(Long id, String name, Long age, String email,
-                            String login, String pass, LocalDate dateOfBirth) throws IncorrectEmailException {
+    public PersonDtoResponse update(Long id, PersonDtoRequest personDtoRequest) throws IncorrectEmailException {
 
-        //checkDataService.verificationOfExistencePersonById(id, personRepository);
+        Optional<Person> optionalPerson = personRepository.findById(id);
+        Person person = optionalPerson.orElseThrow(() -> new NotFoundEntityException(id));
 
-        Person person = personRepository.getById(id);
-        person.setName(name);
-        person.setAge(age);
-        person.setEmail(email);
-        person.setLogin(login);
-        person.setPass(pass);
-        person.setDateOfBirth(dateOfBirth);
+        person.setName(personDtoRequest.getName());
+        person.setAge(personDtoRequest.getAge());
+        person.setEmail(personDtoRequest.getEmail());
+        person.setLogin(personDtoRequest.getLogin());
+        person.setPass(personDtoRequest.getPass());
+        person.setDateOfBirth(personDtoRequest.getDateOfBirth());
 
         personRepository.save(person);
 
