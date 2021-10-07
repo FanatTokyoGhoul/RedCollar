@@ -1,6 +1,9 @@
 package com.example.redcollar1.services;
 
 import com.example.redcollar1.exception.IncorrectNameContentException;
+import com.example.redcollar1.exception.NotFoundEntityException;
+import com.example.redcollar1.models.dto.request.VideoContentDtoRequest;
+import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.models.dto.response.VideoContentDtoResponse;
 import com.example.redcollar1.models.entities.Person;
 import com.example.redcollar1.models.entities.VideoContent;
@@ -10,6 +13,7 @@ import com.example.redcollar1.repository.VideoContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,25 +25,22 @@ public class VideoContentService {
     private VideoContentDtoFactory contentDtoFactory;
     private VideoContentRepository contentRepository;
     private PersonRepository personRepository;
-    private CheckDataService checkDataService;
 
     @Autowired
-    public VideoContentService(VideoContentDtoFactory contentDtoFactory, VideoContentRepository contentRepository, PersonRepository personRepository, CheckDataService checkDataService) {
+    public VideoContentService(VideoContentDtoFactory contentDtoFactory, VideoContentRepository contentRepository, PersonRepository personRepository) {
         this.contentDtoFactory = contentDtoFactory;
         this.contentRepository = contentRepository;
         this.personRepository = personRepository;
-        this.checkDataService = checkDataService;
     }
 
 
-    public VideoContentDtoResponse update(Long id, String name, String genres,
-                                          String image, String description) {
+    public VideoContentDtoResponse update(Long id, VideoContentDtoRequest videoContentDtoRequest) {
 
-        VideoContent entity = checkDataService.verificationOfExistenceContentById(id, contentRepository);
-        entity.setName(name);
-        entity.setGenres(genres);
-        entity.setDescription(description);
-        entity.setImage(image);
+        VideoContent entity = contentRepository.findById(id).orElseThrow(() -> new NotFoundEntityException(id));
+        entity.setName(videoContentDtoRequest.getName());
+        entity.setGenres(videoContentDtoRequest.getGenres());
+        entity.setDescription(videoContentDtoRequest.getDescription());
+        entity.setImage(videoContentDtoRequest.getImage());
         return contentDtoFactory.makeEmployeeDto(contentRepository.save(entity));
     }
 
@@ -48,28 +49,20 @@ public class VideoContentService {
     }
 
     public List<VideoContentDtoResponse> findAll() {
-
-        return Stream.of(contentRepository.findAll())
-                .map(contents -> contentDtoFactory.makeEmployeeDto((VideoContent) contents)).collect(Collectors.toList());
+        List<VideoContentDtoResponse> personDtos = new ArrayList<>();
+        for (VideoContent content : contentRepository.findAll()) {
+            personDtos.add(contentDtoFactory.makeEmployeeDto(content));
+        }
+        return personDtos;
     }
 
-    public VideoContentDtoResponse save(String name, String genres,
-                                        String image, String description, Long idPerson) throws IncorrectNameContentException {
+    public VideoContentDtoResponse save(VideoContentDtoRequest videoContentDtoRequest) throws IncorrectNameContentException {
 
-        Validation.validateNameContent(name);
+        Validation.validateNameContent(videoContentDtoRequest.getName());
 
-        Person person = checkDataService.verificationOfExistencePersonById(idPerson, personRepository);
-        VideoContent employee = contentRepository.save(
-                VideoContent.builder()
-                        .name(name)
-                        .genres(genres)
-                        .image(image)
-                        .description(description)
-                        .IdPerson(person.getId())
-                        .build()
-        );
+        VideoContent employee = contentDtoFactory.makeEntity(videoContentDtoRequest);
 
-        return contentDtoFactory.makeEmployeeDto(employee);
+        return contentDtoFactory.makeEmployeeDto(contentRepository.save(employee));
     }
 
 

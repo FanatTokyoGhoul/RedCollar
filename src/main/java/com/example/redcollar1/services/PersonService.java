@@ -28,7 +28,7 @@ public class PersonService {
 
     public List<PersonDtoResponse> findAll() {
         List<PersonDtoResponse> personDtos = new ArrayList<>();
-        for(Person person : personRepository.findAll()){
+        for (Person person : personRepository.findAll()) {
             personDtos.add(personDtoFactory.makeEmployeeDto(person));
         }
         return personDtos;
@@ -36,7 +36,7 @@ public class PersonService {
 
     public List<PersonDtoResponse> findPersonWithMoreContentThanANumber(int number) {
         List<PersonDtoResponse> personDtos = new ArrayList<>();
-        for(Person person : personRepository.findAll()) {
+        for (Person person : personRepository.findAll()) {
             if (person.getContents().size() > number) {
                 personDtos.add(personDtoFactory.makeEmployeeDto(person));
 
@@ -50,16 +50,7 @@ public class PersonService {
 
         Validation.validateEmail(personDto.getEmail());
 
-        Person employee = personRepository.save(
-                Person.builder()
-                        .name(personDto.getName())
-                        .age(personDto.getAge())
-                        .dateOfBirth(personDto.getDateOfBirth())
-                        .email(personDto.getEmail())
-                        .login(personDto.getLogin())
-                        .pass(personDto.getPass())
-                        .build()
-        );
+        Person employee = personDtoFactory.makeEntity(personDto);
 
         return personDtoFactory.makeEmployeeDto(personRepository.save(employee));
     }

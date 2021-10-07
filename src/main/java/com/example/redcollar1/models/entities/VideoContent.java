@@ -21,5 +21,5 @@ public class VideoContent {
     private String genres;
     private String image;
     private String description;
-    private Long IdPerson;
+    private Long idPerson;
 }

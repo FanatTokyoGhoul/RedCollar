@@ -1,6 +1,7 @@
 package com.example.redcollar1.controllers;
 
 import com.example.redcollar1.exception.IncorrectNameContentException;
+import com.example.redcollar1.models.dto.request.VideoContentDtoRequest;
 import com.example.redcollar1.models.dto.response.VideoContentDtoResponse;
 import com.example.redcollar1.services.VideoContentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,13 @@ public class VideoContentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public VideoContentDtoResponse create(@RequestParam String name, @RequestParam String genres,
-                                          @RequestParam String image, @RequestParam String description, @RequestParam Long idPerson) throws IncorrectNameContentException {
-        return serviceContent.save(name, genres, image, description, idPerson);
+    public VideoContentDtoResponse create(@RequestBody VideoContentDtoRequest videoContentDtoRequest) throws IncorrectNameContentException {
+        return serviceContent.save(videoContentDtoRequest);
     }
 
     @PutMapping("/{id}")
-    public VideoContentDtoResponse update(@PathVariable Long id, @RequestParam String name, @RequestParam String genres,
-                                          @RequestParam String image, @RequestParam String description) throws IncorrectNameContentException {
-        return serviceContent.update(id, name, genres, image, description);
+    public VideoContentDtoResponse update(@PathVariable Long id, @RequestBody VideoContentDtoRequest videoContentDtoRequest) throws IncorrectNameContentException {
+        return serviceContent.update(id, videoContentDtoRequest);
     }
 
     @DeleteMapping("/{id}")

@@ -17,13 +17,13 @@ public class VideoContentDtoFactory {
                 .build();
     }
 
-    public VideoContent makeEntity(VideoContentDtoRequest videoContent){
+    public VideoContent makeEntity(VideoContentDtoRequest videoContent) {
         return VideoContent.builder()
                 .name(videoContent.getName())
                 .genres(videoContent.getGenres())
                 .description(videoContent.getDescription())
                 .image(videoContent.getImage())
-                .IdPerson(videoContent.getIdPerson())
+                .idPerson(videoContent.getIdPerson())
                 .build();
     }
 }

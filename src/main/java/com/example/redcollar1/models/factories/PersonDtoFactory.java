@@ -18,7 +18,7 @@ public class PersonDtoFactory {
                 .build();
     }
 
-    public Person makeEntity(PersonDtoRequest person){
+    public Person makeEntity(PersonDtoRequest person) {
         return Person.builder()
                 .name(person.getName())
                 .age(person.getAge())
