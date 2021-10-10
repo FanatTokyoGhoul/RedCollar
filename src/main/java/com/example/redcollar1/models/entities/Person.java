@@ -39,7 +39,4 @@ public class Person {
     @MappedCollection(idColumn = "id_person")
     private Set<VideoContent> contents;
 
-    public PersonDtoResponse toDto() {
-        return new PersonDtoResponse();
-    }
 }

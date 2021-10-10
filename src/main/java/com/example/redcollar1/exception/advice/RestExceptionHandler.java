@@ -7,9 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class Advice {
+public class RestExceptionHandler {
 
     @ExceptionHandler(IncorrectEmailException.class)
     public ResponseEntity<String> handleException(IncorrectEmailException e) {
@@ -27,6 +28,8 @@ public class Advice {
     }
 
     private ResponseEntity<String> returnMessage(Exception e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        ResponseStatus statusAnno = e.getClass().getAnnotation(ResponseStatus.class);
+        HttpStatus httpStatus = statusAnno != null ? statusAnno.value() : HttpStatus.INTERNAL_SERVER_ERROR;
+        return new ResponseEntity<>(e.getMessage(), httpStatus);
     }
 }

@@ -4,7 +4,7 @@ import com.example.redcollar1.exception.IncorrectNameContentException;
 import com.example.redcollar1.models.dto.request.VideoContentDtoRequest;
 import com.example.redcollar1.models.dto.response.VideoContentDtoResponse;
 import com.example.redcollar1.services.VideoContentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.redcollar1.services.validation.CheckData;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +16,11 @@ import java.util.List;
 @RequestMapping("/content")
 public class VideoContentController {
 
-    @Autowired
-    private VideoContentService serviceContent;
+    private final VideoContentService serviceContent;
 
+    public VideoContentController(VideoContentService serviceContent) {
+        this.serviceContent = serviceContent;
+    }
 
     @GetMapping()
     public List<VideoContentDtoResponse> index() {
@@ -28,7 +30,9 @@ public class VideoContentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public VideoContentDtoResponse create(@RequestBody VideoContentDtoRequest videoContentDtoRequest) throws IncorrectNameContentException {
-        return serviceContent.save(videoContentDtoRequest);
+        CheckData.validateNameContent(videoContentDtoRequest.getName());
+
+        return serviceContent.create(videoContentDtoRequest);
     }
 
     @PutMapping("/{id}")
@@ -37,7 +41,7 @@ public class VideoContentController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) throws IncorrectNameContentException {
+    public void delete(@PathVariable Long id) {
         serviceContent.delete(id);
     }
 }

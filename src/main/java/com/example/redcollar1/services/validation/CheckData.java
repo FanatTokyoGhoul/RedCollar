@@ -1,4 +1,4 @@
-package com.example.redcollar1.services;
+package com.example.redcollar1.services.validation;
 
 import com.example.redcollar1.exception.IncorrectEmailException;
 import com.example.redcollar1.exception.IncorrectNameContentException;
@@ -6,10 +6,10 @@ import com.example.redcollar1.exception.IncorrectNameContentException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Validation {
+public class CheckData {
 
-    static final int MIN_LENGTH_EMAIL = 4;
-    static final int MAX_LENGTH_EMAIL = 100;
+    static final int MIN_LENGTH_NAME = 4;
+    static final int MAX_LENGTH_NAME = 100;
 
     public static void validateEmail(String email) {
         Pattern pattern = Pattern.compile("\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*\\.\\w{2,4}");
@@ -20,7 +20,7 @@ public class Validation {
     }
 
     public static void validateNameContent(String name) {
-        if (name.length() < MIN_LENGTH_EMAIL || name.length() > MAX_LENGTH_EMAIL) {
+        if (name.length() < MIN_LENGTH_NAME || name.length() > MAX_LENGTH_NAME) {
             throw new IncorrectNameContentException();
         }
     }

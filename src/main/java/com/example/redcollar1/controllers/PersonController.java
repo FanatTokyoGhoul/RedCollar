@@ -1,10 +1,9 @@
 package com.example.redcollar1.controllers;
 
-import com.example.redcollar1.exception.IncorrectNameContentException;
 import com.example.redcollar1.models.dto.request.PersonDtoRequest;
 import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.services.PersonService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.redcollar1.services.validation.CheckData;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +14,18 @@ import java.util.List;
 @RequestMapping("/people")
 public class PersonController {
 
-    @Autowired
-    private PersonService personService;
+    private final PersonService personService;
 
-    @GetMapping()
+    public PersonController(PersonService personService) {
+        this.personService = personService;
+    }
+
+    @GetMapping
     public List<PersonDtoResponse> index() {
         return personService.findAll();
     }
 
-    @GetMapping("/high/content")
+    @GetMapping("/high-content")
     public List<PersonDtoResponse> findPersonWithMoreContentThanANumber(@RequestParam int number) {
         return personService.findPersonWithMoreContentThanANumber(number);
     }
@@ -31,11 +33,13 @@ public class PersonController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PersonDtoResponse create(@RequestBody PersonDtoRequest person) {
-        return personService.save(person);
+        CheckData.validateEmail(person.getEmail());
+
+        return personService.create(person);
     }
 
     @PutMapping("/{id}")
-    public PersonDtoResponse update(@PathVariable Long id, @RequestBody PersonDtoRequest person) throws IncorrectNameContentException {
+    public PersonDtoResponse update(@PathVariable Long id, @RequestBody PersonDtoRequest person) {
         return personService.update(id, person);
     }
 

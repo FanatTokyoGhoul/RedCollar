@@ -3,28 +3,25 @@ package com.example.redcollar1.services;
 import com.example.redcollar1.exception.IncorrectNameContentException;
 import com.example.redcollar1.exception.NotFoundEntityException;
 import com.example.redcollar1.models.dto.request.VideoContentDtoRequest;
-import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.models.dto.response.VideoContentDtoResponse;
-import com.example.redcollar1.models.entities.Person;
 import com.example.redcollar1.models.entities.VideoContent;
 import com.example.redcollar1.models.factories.VideoContentDtoFactory;
 import com.example.redcollar1.repository.PersonRepository;
 import com.example.redcollar1.repository.VideoContentRepository;
+import com.example.redcollar1.services.validation.CheckData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class VideoContentService {
 
 
-    private VideoContentDtoFactory contentDtoFactory;
-    private VideoContentRepository contentRepository;
-    private PersonRepository personRepository;
+    private final VideoContentDtoFactory contentDtoFactory;
+    private final VideoContentRepository contentRepository;
+    private final PersonRepository personRepository;
 
     @Autowired
     public VideoContentService(VideoContentDtoFactory contentDtoFactory, VideoContentRepository contentRepository, PersonRepository personRepository) {
@@ -41,7 +38,7 @@ public class VideoContentService {
         entity.setGenres(videoContentDtoRequest.getGenres());
         entity.setDescription(videoContentDtoRequest.getDescription());
         entity.setImage(videoContentDtoRequest.getImage());
-        return contentDtoFactory.makeEmployeeDto(contentRepository.save(entity));
+        return contentDtoFactory.toVideoContentDtoResponse(contentRepository.save(entity));
     }
 
     public void delete(Long id) {
@@ -50,19 +47,18 @@ public class VideoContentService {
 
     public List<VideoContentDtoResponse> findAll() {
         List<VideoContentDtoResponse> personDtos = new ArrayList<>();
-        for (VideoContent content : contentRepository.findAll()) {
-            personDtos.add(contentDtoFactory.makeEmployeeDto(content));
-        }
+
+        contentRepository.findAll().forEach(videoContent -> {
+            personDtos.add(contentDtoFactory.toVideoContentDtoResponse(videoContent));
+        });
         return personDtos;
     }
 
-    public VideoContentDtoResponse save(VideoContentDtoRequest videoContentDtoRequest) throws IncorrectNameContentException {
+    public VideoContentDtoResponse create(VideoContentDtoRequest videoContentDtoRequest) throws IncorrectNameContentException {
 
-        Validation.validateNameContent(videoContentDtoRequest.getName());
+        VideoContent employee = contentDtoFactory.toVideoContent(videoContentDtoRequest);
 
-        VideoContent employee = contentDtoFactory.makeEntity(videoContentDtoRequest);
-
-        return contentDtoFactory.makeEmployeeDto(contentRepository.save(employee));
+        return contentDtoFactory.toVideoContentDtoResponse(contentRepository.save(employee));
     }
 
 

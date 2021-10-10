@@ -45,16 +45,16 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-bootBuildImage {
-    builder = 'paketobuildpacks/builder:tiny'
-    environment = ['BP_NATIVE_IMAGE': 'true']
-}
-
-nativeBuild {
-    classpath processAotResources.outputs, compileAotJava.outputs
-}
-
-nativeTest {
-    classpath processAotTestResources.outputs, compileAotTestJava.outputs
-}
+//
+//bootBuildImage {
+//    builder = 'paketobuildpacks/builder:tiny'
+//    environment = ['BP_NATIVE_IMAGE': 'true']
+//}
+//
+//nativeBuild {
+//    classpath processAotResources.outputs, compileAotJava.outputs
+//}
+//
+//nativeTest {
+//    classpath processAotTestResources.outputs, compileAotTestJava.outputs
+//}

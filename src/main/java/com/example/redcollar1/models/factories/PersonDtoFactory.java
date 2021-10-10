@@ -3,9 +3,11 @@ package com.example.redcollar1.models.factories;
 import com.example.redcollar1.models.dto.request.PersonDtoRequest;
 import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.models.entities.Person;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PersonDtoFactory {
-    public PersonDtoResponse makeEmployeeDto(Person entity) {
+    public PersonDtoResponse toPersonDtoResponse(Person entity) {
 
         return PersonDtoResponse.builder()
                 .id(entity.getId())
@@ -18,7 +20,7 @@ public class PersonDtoFactory {
                 .build();
     }
 
-    public Person makeEntity(PersonDtoRequest person) {
+    public Person makePerson(PersonDtoRequest person) {
         return Person.builder()
                 .name(person.getName())
                 .age(person.getAge())

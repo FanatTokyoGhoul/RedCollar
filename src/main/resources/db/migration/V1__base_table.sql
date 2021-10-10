@@ -1,6 +1,8 @@
+CREATE SCHEMA test;
+
 CREATE TABLE test.content
 (
-    id          serial primary key NOT NULL,
+    id          serial primary key,
     description character varying(255),
     genres      character varying(255),
     image       character varying(255),
@@ -10,7 +12,7 @@ CREATE TABLE test.content
 
 CREATE TABLE test.person
 (
-    id            serial primary key NOT NULL,
+    id            serial primary key,
     age           bigint,
     email         character varying(255),
     login         character varying(255),

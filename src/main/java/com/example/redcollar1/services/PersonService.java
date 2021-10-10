@@ -7,10 +7,8 @@ import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.models.entities.Person;
 import com.example.redcollar1.models.factories.PersonDtoFactory;
 import com.example.redcollar1.repository.PersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +18,6 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final PersonDtoFactory personDtoFactory;
 
-    @Autowired
     public PersonService(PersonRepository personRepository, PersonDtoFactory personDtoFactory) {
         this.personRepository = personRepository;
         this.personDtoFactory = personDtoFactory;
@@ -28,31 +25,28 @@ public class PersonService {
 
     public List<PersonDtoResponse> findAll() {
         List<PersonDtoResponse> personDtos = new ArrayList<>();
-        for (Person person : personRepository.findAll()) {
-            personDtos.add(personDtoFactory.makeEmployeeDto(person));
-        }
+        personRepository.findAll().forEach(person -> {
+            personDtos.add(personDtoFactory.toPersonDtoResponse(person));
+        });
         return personDtos;
     }
 
     public List<PersonDtoResponse> findPersonWithMoreContentThanANumber(int number) {
         List<PersonDtoResponse> personDtos = new ArrayList<>();
-        for (Person person : personRepository.findAll()) {
-            if (person.getContents().size() > number) {
-                personDtos.add(personDtoFactory.makeEmployeeDto(person));
 
+        personRepository.findAll().forEach(person -> {
+            if(person.getContents().size() > number){
+                personDtos.add(personDtoFactory.toPersonDtoResponse(person));
             }
-        }
+        });
 
         return personDtos;
     }
 
-    public PersonDtoResponse save(PersonDtoRequest personDto) throws IncorrectEmailException {
+    public PersonDtoResponse create(PersonDtoRequest personDto) throws IncorrectEmailException {
+        Person employee = personDtoFactory.makePerson(personDto);
 
-        Validation.validateEmail(personDto.getEmail());
-
-        Person employee = personDtoFactory.makeEntity(personDto);
-
-        return personDtoFactory.makeEmployeeDto(personRepository.save(employee));
+        return personDtoFactory.toPersonDtoResponse(personRepository.save(employee));
     }
 
     public PersonDtoResponse update(Long id, PersonDtoRequest personDtoRequest) throws IncorrectEmailException {
@@ -64,12 +58,11 @@ public class PersonService {
         person.setAge(personDtoRequest.getAge());
         person.setEmail(personDtoRequest.getEmail());
         person.setLogin(personDtoRequest.getLogin());
-        person.setPass(personDtoRequest.getPass());
         person.setDateOfBirth(personDtoRequest.getDateOfBirth());
 
-        personRepository.save(person);
 
-        return personDtoFactory.makeEmployeeDto(person);
+
+        return personDtoFactory.toPersonDtoResponse(personRepository.save(person));
     }
 
     public void delete(Long id) {

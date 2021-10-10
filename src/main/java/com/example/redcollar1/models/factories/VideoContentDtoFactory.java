@@ -3,9 +3,11 @@ package com.example.redcollar1.models.factories;
 import com.example.redcollar1.models.dto.request.VideoContentDtoRequest;
 import com.example.redcollar1.models.dto.response.VideoContentDtoResponse;
 import com.example.redcollar1.models.entities.VideoContent;
+import org.springframework.stereotype.Component;
 
+@Component
 public class VideoContentDtoFactory {
-    public VideoContentDtoResponse makeEmployeeDto(VideoContent entity) {
+    public VideoContentDtoResponse toVideoContentDtoResponse(VideoContent entity) {
 
         return VideoContentDtoResponse.builder()
                 .id(entity.getId())
@@ -17,7 +19,7 @@ public class VideoContentDtoFactory {
                 .build();
     }
 
-    public VideoContent makeEntity(VideoContentDtoRequest videoContent) {
+    public VideoContent toVideoContent(VideoContentDtoRequest videoContent) {
         return VideoContent.builder()
                 .name(videoContent.getName())
                 .genres(videoContent.getGenres())
