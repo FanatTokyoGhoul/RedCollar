@@ -8,7 +8,6 @@ import com.example.redcollar1.models.entities.VideoContent;
 import com.example.redcollar1.models.factories.VideoContentDtoFactory;
 import com.example.redcollar1.repository.PersonRepository;
 import com.example.redcollar1.repository.VideoContentRepository;
-import com.example.redcollar1.services.validation.CheckData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +20,19 @@ public class VideoContentService {
 
     private final VideoContentDtoFactory contentDtoFactory;
     private final VideoContentRepository contentRepository;
-    private final PersonRepository personRepository;
 
     @Autowired
-    public VideoContentService(VideoContentDtoFactory contentDtoFactory, VideoContentRepository contentRepository, PersonRepository personRepository) {
+    public VideoContentService(VideoContentDtoFactory contentDtoFactory, VideoContentRepository contentRepository) {
         this.contentDtoFactory = contentDtoFactory;
         this.contentRepository = contentRepository;
-        this.personRepository = personRepository;
     }
 
+
+    public VideoContentDtoResponse getVideoContent(Long id){
+        VideoContent entity = contentRepository.findById(id).orElseThrow(() -> new NotFoundEntityException(id));
+
+        return contentDtoFactory.toVideoContentDtoResponse(entity);
+    }
 
     public VideoContentDtoResponse update(Long id, VideoContentDtoRequest videoContentDtoRequest) {
 

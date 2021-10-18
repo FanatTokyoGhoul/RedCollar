@@ -5,6 +5,7 @@ import com.example.redcollar1.exception.NotFoundEntityException;
 import com.example.redcollar1.models.dto.request.PersonDtoRequest;
 import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.models.entities.Person;
+import com.example.redcollar1.models.entities.VideoContent;
 import com.example.redcollar1.models.factories.PersonDtoFactory;
 import com.example.redcollar1.repository.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,24 @@ public class PersonService {
         List<PersonDtoResponse> personDtos = new ArrayList<>();
 
         personRepository.findAll().forEach(person -> {
-            if(person.getContents().size() > number){
+            if (person.getContents().size() > number) {
                 personDtos.add(personDtoFactory.toPersonDtoResponse(person));
             }
+        });
+
+        return personDtos;
+    }
+
+    public List<PersonDtoResponse> findPersonMakingContent(String genres){
+        List<PersonDtoResponse> personDtos = new ArrayList<>();
+
+        personRepository.findAll().forEach(person -> {
+           for(VideoContent videoContent : person.getContents()){
+               if (videoContent.getGenres().equals(genres)) {
+                   personDtos.add(personDtoFactory.toPersonDtoResponse(person));
+                   break;
+               }
+           }
         });
 
         return personDtos;
@@ -47,6 +63,13 @@ public class PersonService {
         Person employee = personDtoFactory.makePerson(personDto);
 
         return personDtoFactory.toPersonDtoResponse(personRepository.save(employee));
+    }
+
+    public PersonDtoResponse getPerson(Long id){
+        Optional<Person> optionalPerson = personRepository.findById(id);
+        Person person = optionalPerson.orElseThrow(() -> new NotFoundEntityException(id));
+
+        return personDtoFactory.toPersonDtoResponse(person);
     }
 
     public PersonDtoResponse update(Long id, PersonDtoRequest personDtoRequest) throws IncorrectEmailException {
@@ -59,7 +82,6 @@ public class PersonService {
         person.setEmail(personDtoRequest.getEmail());
         person.setLogin(personDtoRequest.getLogin());
         person.setDateOfBirth(personDtoRequest.getDateOfBirth());
-
 
 
         return personDtoFactory.toPersonDtoResponse(personRepository.save(person));

@@ -20,11 +20,6 @@ import java.util.Set;
 @Table("person")
 public class Person {
 
-    // PK FK 1t1 1tm mtm group by sort having distinct count (join left right outer inner)
-    // index procedure/func
-
-
-    // flyway
     @Id
     private Long id;
 

@@ -10,6 +10,7 @@ services:
       - POSTGRES_USER=shadow-fiend
       - POSTGRES_DB=test
       - POSTGRES_PASSWORD=qqqqqq
+      - POSTGRES_SCHEMA=test
     volumes:
       - "db-data:/var/lib/postgresql/data"
 
@@ -21,6 +22,11 @@ services:
     environment:
       - PORT=8080
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres/test
+      - SPRING_DATASOURSE_USERNAME=shadow-fiend
+      - SPRING_DATASOURSE_PASSWORD=qqqqqq
+      - SPRING_DATASOURSE_HIKARI_SCHEMA=test
+      - SPRING_FLYWAY_BASELINE-ON-MIGRATE=true
+      - SPRING_FLYWAY_ENABLED=true
     image: 'redcollar'
     ports:
       - 8080:8080

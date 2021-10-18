@@ -27,6 +27,11 @@ public class VideoContentController {
         return serviceContent.findAll();
     }
 
+    @GetMapping("/{id}")
+    public VideoContentDtoResponse getVideoContent(@PathVariable Long id){
+        return serviceContent.getVideoContent(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public VideoContentDtoResponse create(@RequestBody VideoContentDtoRequest videoContentDtoRequest) throws IncorrectNameContentException {

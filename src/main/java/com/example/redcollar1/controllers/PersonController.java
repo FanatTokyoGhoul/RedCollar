@@ -30,6 +30,16 @@ public class PersonController {
         return personService.findPersonWithMoreContentThanANumber(number);
     }
 
+    @GetMapping("/{id}")
+    public PersonDtoResponse getPerson(@PathVariable Long id) {
+        return personService.getPerson(id);
+    }
+
+    @GetMapping("/genres")
+    public List<PersonDtoResponse> findPersonMakingContent(@RequestParam String genres) {
+        return personService.findPersonMakingContent(genres);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PersonDtoResponse create(@RequestBody PersonDtoRequest person) {

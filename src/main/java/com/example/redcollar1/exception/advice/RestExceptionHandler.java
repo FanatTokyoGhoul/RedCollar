@@ -27,7 +27,7 @@ public class RestExceptionHandler {
         return returnMessage(e);
     }
 
-    private ResponseEntity<String> returnMessage(Exception e){
+    private ResponseEntity<String> returnMessage(Exception e) {
         ResponseStatus statusAnno = e.getClass().getAnnotation(ResponseStatus.class);
         HttpStatus httpStatus = statusAnno != null ? statusAnno.value() : HttpStatus.INTERNAL_SERVER_ERROR;
         return new ResponseEntity<>(e.getMessage(), httpStatus);
