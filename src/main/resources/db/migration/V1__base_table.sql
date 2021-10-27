@@ -1,4 +1,4 @@
-CREATE TABLE test.person
+CREATE TABLE person_with_content.person
 (
     id            serial primary key,
     age           bigint,
@@ -9,7 +9,7 @@ CREATE TABLE test.person
     date_of_birth date
 );
 
-CREATE TABLE test.content
+CREATE TABLE person_with_content.content
 (
     id          serial primary key,
     description character varying(255),

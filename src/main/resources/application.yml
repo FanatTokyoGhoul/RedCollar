@@ -6,10 +6,9 @@ spring:
     baseline-on-migrate: true
     enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/test
-    username: shadow-fiend
-    password: qqqqqq
+    url: ${SPRING_DATASOURSE_URL:jdbc:postgresql://localhost:5432/red_collar}
+    username: ${SPRING_DATASOURSE_USERNAME:shadow-fiend}
+    password: ${SPRING_DATASOURSE_PASSWORD:qqqqqq}
     driverClassName: org.postgresql.Driver
     hikari:
-      schema: test
-
+      schema: ${SPRING_DATASOURSE_HIKARI_SCHEMA:person_with_content}

@@ -35,11 +35,6 @@ public class VideoContentServiceTest {
         modelPerson.getContents().add(modelVideoContent);
     }
 
-    @Test
-    public void createVideoContent_incorrectNameContentException(){
-        assertThrows(IncorrectNameContentException.class, () ->
-                videoContentService.create(modelVideoContentDtoRequestIncorrectName));
-    }
 
     @Test
     public void createVideoContent_correctData() {
