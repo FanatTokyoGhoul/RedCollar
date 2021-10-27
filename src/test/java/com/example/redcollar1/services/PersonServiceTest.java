@@ -1,12 +1,11 @@
 package com.example.redcollar1.services;
 
-import com.example.redcollar1.exception.IncorrectEmailException;
-import com.example.redcollar1.models.dto.request.PersonDtoRequest;
-import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.models.entities.Person;
 import com.example.redcollar1.models.entities.VideoContent;
 import com.example.redcollar1.models.factories.PersonDtoFactory;
 import com.example.redcollar1.repository.PersonRepository;
+import common.lib.models.dto.request.PersonDtoRequest;
+import common.lib.models.dto.response.PersonDtoResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

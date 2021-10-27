@@ -1,13 +1,13 @@
 package com.example.redcollar1.services;
 
-import com.example.redcollar1.exception.IncorrectEmailException;
-import com.example.redcollar1.exception.NotFoundEntityException;
-import com.example.redcollar1.models.dto.request.PersonDtoRequest;
-import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.models.entities.Person;
 import com.example.redcollar1.models.entities.VideoContent;
 import com.example.redcollar1.models.factories.PersonDtoFactory;
 import com.example.redcollar1.repository.PersonRepository;
+import common.lib.exception.IncorrectEmailException;
+import common.lib.exception.NotFoundEntityException;
+import common.lib.models.dto.request.PersonDtoRequest;
+import common.lib.models.dto.response.PersonDtoResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class PersonService {
         return personDtos;
     }
 
-    public PersonDtoResponse create(PersonDtoRequest personDto) throws IncorrectEmailException {
+    public PersonDtoResponse create(PersonDtoRequest personDto) {
         Person employee = personDtoFactory.makePerson(personDto);
 
         return personDtoFactory.toPersonDtoResponse(personRepository.save(employee));
@@ -72,7 +72,7 @@ public class PersonService {
         return personDtoFactory.toPersonDtoResponse(person);
     }
 
-    public PersonDtoResponse update(Long id, PersonDtoRequest personDtoRequest) throws IncorrectEmailException {
+    public PersonDtoResponse update(Long id, PersonDtoRequest personDtoRequest) {
 
         Optional<Person> optionalPerson = personRepository.findById(id);
         Person person = optionalPerson.orElseThrow(() -> new NotFoundEntityException(id));

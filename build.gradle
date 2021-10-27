@@ -29,6 +29,7 @@ dependencies {
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.10'
     implementation 'org.flywaydb:flyway-core:8.0.0'
     implementation 'junit:junit:4.13.1'
+    implementation files('../common-lib/build/libs/common-lib-1.0-SNAPSHOT-plain.jar')
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.5.5'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
@@ -44,16 +45,3 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-//bootBuildImage {
-//    builder = 'paketobuildpacks/builder:tiny'
-//    environment = ['BP_NATIVE_IMAGE': 'true']
-//}
-//
-//nativeBuild {
-//    classpath processAotResources.outputs, compileAotJava.outputs
-//}
-//
-//nativeTest {
-//    classpath processAotTestResources.outputs, compileAotTestJava.outputs
-//}

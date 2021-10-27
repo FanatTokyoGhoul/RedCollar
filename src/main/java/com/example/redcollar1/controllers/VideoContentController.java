@@ -1,10 +1,10 @@
 package com.example.redcollar1.controllers;
 
-import com.example.redcollar1.exception.IncorrectNameContentException;
-import com.example.redcollar1.models.dto.request.VideoContentDtoRequest;
-import com.example.redcollar1.models.dto.response.VideoContentDtoResponse;
 import com.example.redcollar1.services.VideoContentService;
 import com.example.redcollar1.services.validation.CheckData;
+import common.lib.exception.IncorrectNameContentException;
+import common.lib.models.dto.request.VideoContentDtoRequest;
+import common.lib.models.dto.response.VideoContentDtoResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

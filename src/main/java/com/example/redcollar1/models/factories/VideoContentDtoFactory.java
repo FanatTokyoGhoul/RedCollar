@@ -1,8 +1,8 @@
 package com.example.redcollar1.models.factories;
 
-import com.example.redcollar1.models.dto.request.VideoContentDtoRequest;
-import com.example.redcollar1.models.dto.response.VideoContentDtoResponse;
 import com.example.redcollar1.models.entities.VideoContent;
+import common.lib.models.dto.request.VideoContentDtoRequest;
+import common.lib.models.dto.response.VideoContentDtoResponse;
 import org.springframework.stereotype.Component;
 
 @Component

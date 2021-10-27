@@ -1,7 +1,7 @@
 package com.example.redcollar1.services.validation;
 
-import com.example.redcollar1.exception.IncorrectEmailException;
-import com.example.redcollar1.exception.IncorrectNameContentException;
+import common.lib.exception.IncorrectEmailException;
+import common.lib.exception.IncorrectNameContentException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

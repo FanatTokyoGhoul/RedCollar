@@ -1,13 +1,14 @@
 package com.example.redcollar1.services;
 
-import com.example.redcollar1.exception.IncorrectNameContentException;
-import com.example.redcollar1.exception.NotFoundEntityException;
-import com.example.redcollar1.models.dto.request.VideoContentDtoRequest;
-import com.example.redcollar1.models.dto.response.VideoContentDtoResponse;
+
 import com.example.redcollar1.models.entities.VideoContent;
 import com.example.redcollar1.models.factories.VideoContentDtoFactory;
 import com.example.redcollar1.repository.PersonRepository;
 import com.example.redcollar1.repository.VideoContentRepository;
+import common.lib.exception.IncorrectNameContentException;
+import common.lib.exception.NotFoundEntityException;
+import common.lib.models.dto.request.VideoContentDtoRequest;
+import common.lib.models.dto.response.VideoContentDtoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,12 +58,10 @@ public class VideoContentService {
         return personDtos;
     }
 
-    public VideoContentDtoResponse create(VideoContentDtoRequest videoContentDtoRequest) throws IncorrectNameContentException {
+    public VideoContentDtoResponse create(VideoContentDtoRequest videoContentDtoRequest){
 
         VideoContent employee = contentDtoFactory.toVideoContent(videoContentDtoRequest);
 
         return contentDtoFactory.toVideoContentDtoResponse(contentRepository.save(employee));
     }
-
-
 }

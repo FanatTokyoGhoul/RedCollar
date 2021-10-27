@@ -1,6 +1,5 @@
 package com.example.redcollar1.models.entities;
 
-import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

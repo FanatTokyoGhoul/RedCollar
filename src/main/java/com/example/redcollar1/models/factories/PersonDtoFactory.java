@@ -1,8 +1,8 @@
 package com.example.redcollar1.models.factories;
 
-import com.example.redcollar1.models.dto.request.PersonDtoRequest;
-import com.example.redcollar1.models.dto.response.PersonDtoResponse;
 import com.example.redcollar1.models.entities.Person;
+import common.lib.models.dto.request.PersonDtoRequest;
+import common.lib.models.dto.response.PersonDtoResponse;
 import org.springframework.stereotype.Component;
 
 @Component
