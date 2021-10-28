@@ -8,6 +8,7 @@ import common.lib.exception.IncorrectEmailException;
 import common.lib.exception.NotFoundEntityException;
 import common.lib.models.dto.request.PersonDtoRequest;
 import common.lib.models.dto.response.PersonDtoResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final PersonDtoFactory personDtoFactory;
 
+    @Autowired
     public PersonService(PersonRepository personRepository, PersonDtoFactory personDtoFactory) {
         this.personRepository = personRepository;
         this.personDtoFactory = personDtoFactory;
@@ -44,16 +46,16 @@ public class PersonService {
         return personDtos;
     }
 
-    public List<PersonDtoResponse> findPersonMakingContent(String genres){
+    public List<PersonDtoResponse> findPersonMakingContent(String genres) {
         List<PersonDtoResponse> personDtos = new ArrayList<>();
 
         personRepository.findAll().forEach(person -> {
-           for(VideoContent videoContent : person.getContents()){
-               if (videoContent.getGenres().equals(genres)) {
-                   personDtos.add(personDtoFactory.toPersonDtoResponse(person));
-                   break;
-               }
-           }
+            for (VideoContent videoContent : person.getContents()) {
+                if (videoContent.getGenres().equals(genres)) {
+                    personDtos.add(personDtoFactory.toPersonDtoResponse(person));
+                    break;
+                }
+            }
         });
 
         return personDtos;
@@ -65,7 +67,7 @@ public class PersonService {
         return personDtoFactory.toPersonDtoResponse(personRepository.save(employee));
     }
 
-    public PersonDtoResponse getPerson(Long id){
+    public PersonDtoResponse getPerson(Long id) {
         Optional<Person> optionalPerson = personRepository.findById(id);
         Person person = optionalPerson.orElseThrow(() -> new NotFoundEntityException(id));
 
@@ -82,7 +84,6 @@ public class PersonService {
         person.setEmail(personDtoRequest.getEmail());
         person.setLogin(personDtoRequest.getLogin());
         person.setDateOfBirth(personDtoRequest.getDateOfBirth());
-
 
         return personDtoFactory.toPersonDtoResponse(personRepository.save(person));
     }

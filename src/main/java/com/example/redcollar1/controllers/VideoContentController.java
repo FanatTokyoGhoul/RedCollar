@@ -28,7 +28,7 @@ public class VideoContentController {
     }
 
     @GetMapping("/{id}")
-    public VideoContentDtoResponse getVideoContent(@PathVariable Long id){
+    public VideoContentDtoResponse getVideoContent(@PathVariable Long id) {
         return serviceContent.getVideoContent(id);
     }
 

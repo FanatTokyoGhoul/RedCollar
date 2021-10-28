@@ -29,7 +29,7 @@ public class VideoContentService {
     }
 
 
-    public VideoContentDtoResponse getVideoContent(Long id){
+    public VideoContentDtoResponse getVideoContent(Long id) {
         VideoContent entity = contentRepository.findById(id).orElseThrow(() -> new NotFoundEntityException(id));
 
         return contentDtoFactory.toVideoContentDtoResponse(entity);
@@ -58,7 +58,7 @@ public class VideoContentService {
         return personDtos;
     }
 
-    public VideoContentDtoResponse create(VideoContentDtoRequest videoContentDtoRequest){
+    public VideoContentDtoResponse create(VideoContentDtoRequest videoContentDtoRequest) {
 
         VideoContent employee = contentDtoFactory.toVideoContent(videoContentDtoRequest);
 
