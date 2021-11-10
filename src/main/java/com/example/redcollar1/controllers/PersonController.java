@@ -4,6 +4,7 @@ import com.example.redcollar1.services.PersonService;
 import com.example.redcollar1.services.validation.CheckData;
 import common.lib.models.dto.request.PersonDtoRequest;
 import common.lib.models.dto.response.PersonDtoResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

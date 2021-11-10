@@ -1,5 +1,7 @@
 package com.example.redcollar1.models.entities;
 
+import common.lib.models.dto.response.PersonDtoResponse;
+import common.lib.models.dto.response.PersonDtoResponseWithToken;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,10 +29,6 @@ public class Person {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfBirth;
     private String email;
-    private String login;
-    private String pass;
-
     @MappedCollection(idColumn = "id_person")
     private Set<VideoContent> contents;
-
 }

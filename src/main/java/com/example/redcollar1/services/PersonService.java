@@ -82,7 +82,6 @@ public class PersonService {
         person.setName(personDtoRequest.getName());
         person.setAge(personDtoRequest.getAge());
         person.setEmail(personDtoRequest.getEmail());
-        person.setLogin(personDtoRequest.getLogin());
         person.setDateOfBirth(personDtoRequest.getDateOfBirth());
 
         return personDtoFactory.toPersonDtoResponse(personRepository.save(person));

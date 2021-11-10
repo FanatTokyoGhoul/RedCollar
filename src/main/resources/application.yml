@@ -1,5 +1,18 @@
 server:
-  port: 8080
+  port: 8083
+
+profiles:
+  keycloak:
+    admin:
+      username: ${KEYCLOAK_USERNAME_ADMIN:admin}
+      password: ${KEYCLOAK_PASSWORD_ADMIN:1}
+
+keycloak:
+  auth-server-url: ${KEYCLOAK_URL_AUTH:http://localhost:8484/auth}
+  realm: ${KEYCLOAK_REALM:redcollar}
+  resource: ${KEYCLOAK_CLIENT:client}
+  credentials:
+    secret: ${KEYCLOAK_SECRET:b910082d-9b26-4b73-883e-be57957bc8c3}
 
 spring:
   flyway:
@@ -12,3 +25,10 @@ spring:
     driverClassName: org.postgresql.Driver
     hikari:
       schema: ${SPRING_DATASOURSE_HIKARI_SCHEMA:person_with_content}
+
+springdoc:
+  swagger-ui:
+    oauth:
+      clientId: ${KEYCLOAK_CLIENT:client}
+
+
