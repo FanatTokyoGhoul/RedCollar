@@ -7,6 +7,8 @@ import common.lib.models.dto.response.PersonDtoResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/people")
+@PreAuthorize("hasAnyRole('user', 'service')")
 public class PersonController {
 
     private final PersonService personService;

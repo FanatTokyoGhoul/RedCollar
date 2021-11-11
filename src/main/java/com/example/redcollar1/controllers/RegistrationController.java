@@ -10,6 +10,8 @@ import org.keycloak.adapters.OidcKeycloakAccount;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.representations.IDToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/me")
+    @PreAuthorize("hasRole('user')")
     public String me(HttpServletRequest httpRequest){
         Principal principa = httpRequest.getUserPrincipal();
         KeycloakAuthenticationToken principal = (KeycloakAuthenticationToken) httpRequest.getUserPrincipal();

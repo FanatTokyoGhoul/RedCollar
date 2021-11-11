@@ -21,16 +21,10 @@ import java.util.Map;
 
 @Configuration
 public class SwaggerConfiguration {
+    @Value("${keycloak.auth-server-url}")
     private String authServer;
+    @Value("${keycloak.realm}")
     private String realm;
-
-    @Autowired
-    public SwaggerConfiguration(
-                          @Value("${keycloak.auth-server-url}") String authServer,
-                          @Value("${keycloak.realm}") String realm) {
-        this.authServer = authServer;
-        this.realm = realm;
-    }
 
     @Bean
     public OpenAPI customOpenAPI() {

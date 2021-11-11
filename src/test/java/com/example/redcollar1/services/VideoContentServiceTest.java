@@ -22,7 +22,7 @@ public class VideoContentServiceTest {
     private final VideoContentDtoRequest modelVideoContentDtoRequestIncorrectName = new VideoContentDtoRequest("rr", "ttt", "image", "it", 1L);
     private final VideoContentDtoRequest modelVideoContentDtoRequest = new VideoContentDtoRequest("rrrr", "ttt", "image", "it", 1L);
     private final VideoContentDtoResponse modelVideoContentDto= new VideoContentDtoResponse(1L, "rrrr", "ttt", "image", "it", 1L);
-    private final Person modelPerson = new Person(1l, "sss", 18L, LocalDate.of(2001, 3, 9), "zzz", "qqq", "ttt", new HashSet<>());
+    private final Person modelPerson = new Person(1l, "sss", 18L, LocalDate.of(2001, 3, 9), "zzz", new HashSet<>());
     private final VideoContent modelVideoContent = new VideoContent(1L, "rrrr", "ttt", "image", "it", 1L);
     private final VideoContent modelVideoContentNullId = new VideoContent(null, "rrrr", "ttt", "image", "it", 1L);
 

@@ -25,38 +25,37 @@ public class PersonServiceTest {
     private static final String CORRECT_GENRES = "ttt";
     private static final String NOT_CORRECT_GENRES = "zzz";
 
-    private final PersonDtoRequest modelPersonDtoRequestIncorrectEmail = new PersonDtoRequest("as",
-            18L, LocalDate.of(1111, 9, 3), "testTest",
-            "testTest", "fewf");
+    private final PersonDtoRequest modelPersonDtoRequestIncorrectEmail = new PersonDtoRequest("tttt", "tttt",
+            "as", 18L, LocalDate.of(1111, 9, 3), "testTest");
 
-    private final PersonDtoRequest modelPersonDtoRequest = new PersonDtoRequest("as", 18L,
-            LocalDate.of(1111, 9, 3),
-            "testTest@mail.ru", "testTest", "fewf");
+    private final PersonDtoRequest modelPersonDtoRequest = new PersonDtoRequest("tttt", "tttt","as",
+            18L, LocalDate.of(1111, 9, 3),
+            "testTest@mail.ru");
 
     private final Person modelPerson = new Person(1L, "as", 18L,
             LocalDate.of(1111, 9, 3),
-            "testTest@mail.ru", "testTest", "fewf", new HashSet<>());
+            "testTest@mail.ru", new HashSet<>());
 
     private final Person modelPersonGenresCorrect = new Person(1L, "fff", 18L,
             LocalDate.of(1111, 9, 3),
-            "testTest@mail.ru", "testTest", "fewf", new HashSet<>());
+            "testTest@mail.ru",new HashSet<>());
 
     private final Person modelPersonGenresNotCorrect = new Person(1L, "vvx", 18L,
             LocalDate.of(1111, 9, 3),
-            "testTest@mail.ru", "testTest", "fewf", new HashSet<>());
+            "testTest@mail.ru", new HashSet<>());
 
     private final PersonDtoResponse personDtoResponse = new PersonDtoResponse(1L, "as", 18L,
             LocalDate.of(1111, 9,3),
-            "testTest@mail.ru", "testTest", "fewf");
+            "testTest@mail.ru");
 
     private final PersonDtoResponse personDtoResponseGenresCorrect = new PersonDtoResponse(1L, "fff",
             18L, LocalDate.of(1111, 9,3),
-            "testTest@mail.ru", "testTest", "fewf");
+            "testTest@mail.ru");
 
 
     private final Person modelPersonNullId = new Person(null, "as", 18L,
             LocalDate.of(1111, 9,3),
-            "testTest@mail.ru", "testTest", "fewf", null);
+            "testTest@mail.ru", null);
 
     private final VideoContent modelVideoContentFirst = new VideoContent(1L, "rrrr",
             "ttt", "image", "it", 1L);
