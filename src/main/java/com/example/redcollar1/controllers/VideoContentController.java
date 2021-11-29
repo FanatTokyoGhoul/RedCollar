@@ -6,8 +6,6 @@ import common.lib.exception.IncorrectNameContentException;
 import common.lib.models.dto.request.VideoContentDtoRequest;
 import common.lib.models.dto.response.VideoContentDtoResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/content")
-@PreAuthorize("isAuthenticated()")
 public class VideoContentController {
 
     private final VideoContentService serviceContent;

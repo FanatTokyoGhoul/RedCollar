@@ -20,7 +20,7 @@ import java.util.Map;
 
 @RestController
 public class RegistrationController {
-    private RegistrationService registrationService;
+    private final RegistrationService registrationService;
 
     @Autowired
     public RegistrationController(RegistrationService registrationService) {
@@ -35,13 +35,11 @@ public class RegistrationController {
     @GetMapping("/me")
     @PreAuthorize("hasRole('user')")
     public String me(HttpServletRequest httpRequest){
-        Principal principa = httpRequest.getUserPrincipal();
         KeycloakAuthenticationToken principal = (KeycloakAuthenticationToken) httpRequest.getUserPrincipal();
         OidcKeycloakAccount l =  principal.getAccount();
         KeycloakSecurityContext keycloakSecurityContext = l.getKeycloakSecurityContext();
         IDToken idToken = keycloakSecurityContext.getToken();
-        String userId = idToken.getPreferredUsername();
 
-        return userId;
+        return idToken.getPreferredUsername();
     }
 }
